@@ -1,0 +1,7 @@
+/var/log/apt-auto-update.log {
+	daily
+	rotate 30
+	missingok
+	notifempty
+	copytruncate
+}

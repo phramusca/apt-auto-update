@@ -1,0 +1,16 @@
+Source: apt-auto-update
+Section: admin
+Priority: optional
+Maintainer: phramusca <phramusca@users.noreply.github.com>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.6.2
+Rules-Requires-Root: no
+Homepage: https://github.com/phramusca/apt-auto-update
+
+Package: apt-auto-update
+Architecture: all
+Depends: ${misc:Depends}, apt, cron | cron-daemon | systemd-cron, logrotate, sudo
+Description: maintenance APT planifiable (Debian, Ubuntu, WSL, Raspberry Pi OS, …)
+ Installe la commande apt-auto-update : exécution immédiate (run), activation
+ ou désactivation d’une tâche cron quotidienne, et rotation des journaux.
+ Utile sur tout système utilisant APT, sans dépendre d’un répertoire utilisateur.

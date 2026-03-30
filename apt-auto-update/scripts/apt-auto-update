@@ -1,0 +1,95 @@
+#!/bin/bash
+set -euo pipefail
+
+CRON_FILE="/etc/cron.d/apt-auto-update"
+RUNNER="/usr/lib/apt-auto-update/run-maintenance.sh"
+MARKER="managed-by-apt-auto-update"
+
+die() { echo "apt-auto-update: $*" >&2; exit 1; }
+
+require_root() {
+  [[ $EUID -eq 0 ]] || exec sudo "$0" "$@"
+}
+
+usage() {
+  cat <<'EOF'
+Usage: apt-auto-update <command> [options]
+
+  run                 Lance maintenant : apt update, upgrade, autoremove, autoclean, clean
+  enable [--hour N]   Active une exécution quotidienne à N h (0–23), défaut : 4
+  disable             Désactive la tâche planifiée (supprime le fragment cron)
+  status              Indique si la mise à jour automatique est active
+
+Sans commande : équivalent à status.
+EOF
+}
+
+cmd_run() {
+  require_root run "$@"
+  [[ -x "$RUNNER" ]] || die "script interne manquant : $RUNNER"
+  exec "$RUNNER"
+}
+
+cmd_enable() {
+  require_root enable "$@"
+  local hour=4
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --hour)
+        [[ $# -ge 2 ]] || die "--hour attend une valeur"
+        hour=$2
+        shift 2
+        ;;
+      *) die "option inconnue : $1 (voir : apt-auto-update --help)" ;;
+    esac
+  done
+  [[ "$hour" =~ ^[0-9]+$ ]] || die "heure invalide : $hour"
+  (( hour >= 0 && hour <= 23 )) || die "heure hors plage 0–23 : $hour"
+
+  umask 022
+  cat >"$CRON_FILE" <<EOF
+# $MARKER — ne pas éditer à la main ; utiliser : apt-auto-update disable|enable
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+0 $hour * * * root test -x $RUNNER && $RUNNER >> /var/log/apt-auto-update.log 2>&1
+EOF
+  chmod 0644 "$CRON_FILE"
+  echo "Mise à jour automatique activée : chaque jour à ${hour}h (root), log : /var/log/apt-auto-update.log"
+}
+
+cmd_disable() {
+  require_root disable "$@"
+  if [[ -f "$CRON_FILE" ]]; then
+    if grep -q "$MARKER" "$CRON_FILE" 2>/dev/null; then
+      rm -f "$CRON_FILE"
+      echo "Mise à jour automatique désactivée (fichier cron supprimé)."
+    else
+      die "refus de supprimer $CRON_FILE (pas généré par ce paquet)"
+    fi
+  else
+    echo "Déjà désactivé (aucun fichier $CRON_FILE)."
+  fi
+}
+
+cmd_status() {
+  if [[ -f "$CRON_FILE" ]] && grep -q "$MARKER" "$CRON_FILE" 2>/dev/null; then
+    echo "État : activé"
+    echo "Fichier : $CRON_FILE"
+    sed 's/^/  /' "$CRON_FILE"
+  else
+    echo "État : désactivé (pas de tâche $MARKER)"
+  fi
+}
+
+main() {
+  case "${1:-}" in
+    ''|status) cmd_status ;;
+    run) shift; cmd_run "$@" ;;
+    enable) shift; cmd_enable "$@" ;;
+    disable) shift; cmd_disable "$@" ;;
+    -h|--help) usage ;;
+    *) usage; exit 1 ;;
+  esac
+}
+
+main "$@"

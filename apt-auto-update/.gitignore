@@ -1,0 +1,14 @@
+# Construction locale du paquet Debian
+*.deb
+*.buildinfo
+*.changes
+*.dsc
+*.tar.*
+*.upload
+
+debian/files
+debian/*.substvars
+debian/*.debhelper.log
+debian/debhelper-build-stamp
+debian/.debhelper/
+debian/apt-auto-update/

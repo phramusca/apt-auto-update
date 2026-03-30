@@ -1,0 +1,2 @@
+scripts/apt-auto-update usr/bin
+scripts/run-maintenance.sh usr/lib/apt-auto-update

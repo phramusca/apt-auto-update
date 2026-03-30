@@ -1,0 +1,8 @@
+#!/bin/sh
+set -e
+case "$1" in
+	purge)
+		rm -f /var/log/apt-auto-update.log*
+		;;
+esac
+exit 0
