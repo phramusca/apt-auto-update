@@ -1,0 +1,7 @@
+# Local Debian package build outputs (dpkg-buildpackage writes to repository root)
+*.deb
+*.buildinfo
+*.changes
+*.dsc
+*.tar.*
+*.upload

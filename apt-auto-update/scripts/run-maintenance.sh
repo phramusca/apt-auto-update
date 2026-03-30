@@ -1,5 +1,5 @@
 #!/bin/bash
-# Exécuté par cron (root) ou via : apt-auto-update run
+# Run by cron (root) or via: apt-auto-update run
 set -euo pipefail
 export DEBIAN_FRONTEND=noninteractive
 apt-get update

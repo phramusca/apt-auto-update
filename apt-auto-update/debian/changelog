@@ -1,5 +1,5 @@
 apt-auto-update (1.0.0) unstable; urgency=medium
 
-  * Paquet initial : maintenance APT planifiable (cron + logrotate), Debian/Ubuntu/WSL.
+  * Initial release: schedulable APT maintenance (cron + logrotate), Debian/Ubuntu/WSL.
 
  -- phramusca <phramusca@users.noreply.github.com>  Sun, 30 Mar 2026 12:00:00 +0000

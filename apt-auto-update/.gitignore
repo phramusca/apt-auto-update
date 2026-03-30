@@ -1,4 +1,4 @@
-# Construction locale du paquet Debian
+# Local Debian package build (inside source tree)
 *.deb
 *.buildinfo
 *.changes

@@ -10,7 +10,7 @@ Homepage: https://github.com/phramusca/apt-auto-update
 Package: apt-auto-update
 Architecture: all
 Depends: ${misc:Depends}, apt, cron | cron-daemon | systemd-cron, logrotate, sudo
-Description: maintenance APT planifiable (Debian, Ubuntu, WSL, Raspberry Pi OS, …)
- Installe la commande apt-auto-update : exécution immédiate (run), activation
- ou désactivation d’une tâche cron quotidienne, et rotation des journaux.
- Utile sur tout système utilisant APT, sans dépendre d’un répertoire utilisateur.
+Description: schedulable APT maintenance (Debian, Ubuntu, WSL, Raspberry Pi OS, …)
+ Installs the apt-auto-update command: immediate run, enable or disable a daily
+ cron job, and log rotation. Suitable for any APT-based system without relying
+ on a user home directory.
