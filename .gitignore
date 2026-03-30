@@ -1,7 +1,15 @@
-# Local Debian package build outputs (dpkg-buildpackage writes to repository root)
+# --- dpkg-buildpackage outputs (written to repository root) ---
 *.deb
 *.buildinfo
 *.changes
 *.dsc
 *.tar.*
 *.upload
+
+# --- debhelper / local build inside apt-auto-update/ (source package) ---
+apt-auto-update/debian/files
+apt-auto-update/debian/*.substvars
+apt-auto-update/debian/*.debhelper.log
+apt-auto-update/debian/debhelper-build-stamp
+apt-auto-update/debian/.debhelper/
+apt-auto-update/debian/apt-auto-update/
