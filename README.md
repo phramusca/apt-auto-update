@@ -25,7 +25,7 @@ sudo apt install ./apt-auto-update_*_all.deb
 | Command                                  | Action                                                                 |
 | ---------------------------------------- | ---------------------------------------------------------------------- |
 | `sudo apt-auto-update run`               | Run maintenance now                                                    |
-| `sudo apt-auto-update enable`            | Daily cron at **4:00**, log `/var/log/apt-auto-update.log`             |
+| `sudo apt-auto-update enable`            | Daily cron at **12:00** (noon), log `/var/log/apt-auto-update.log`     |
 | `sudo apt-auto-update enable --hour 2`   | Same at **2:00**                                                       |
 | `sudo apt-auto-update disable`           | Remove the `/etc/cron.d/apt-auto-update` fragment created by the tool |
 | `apt-auto-update status`                 | Show whether scheduling is active                                      |

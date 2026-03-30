@@ -16,7 +16,7 @@ usage() {
 Usage: apt-auto-update <command> [options]
 
   run                 Run now: apt update, upgrade, autoremove, autoclean, clean
-  enable [--hour N]   Enable daily run at hour N (0–23), default: 4
+  enable [--hour N]   Enable daily run at hour N (0–23), default: 12 (noon)
   disable             Disable scheduled task (remove cron fragment)
   status              Show whether automatic updates are enabled
 
@@ -32,7 +32,7 @@ cmd_run() {
 
 cmd_enable() {
   require_root enable "$@"
-  local hour=4
+  local hour=12
   while [[ $# -gt 0 ]]; do
     case "$1" in
       --hour)
